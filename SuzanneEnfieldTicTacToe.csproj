@@ -260,8 +260,8 @@
     <Compile Include="Assets\Scripts\MenuGroupFader.cs" />
     <Compile Include="Assets\Scripts\OutcomeFinder.cs" />
     <Compile Include="Assets\Scripts\PlayerSymbolSelector.cs" />
+    <Compile Include="Assets\Scripts\QuickPlayTool.cs" />
     <Compile Include="Assets\Scripts\RibController.cs" />
-    <Compile Include="Assets\Scripts\TesterToolWindow.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="GenerateTargetFrameworkMonikerAttribute" />

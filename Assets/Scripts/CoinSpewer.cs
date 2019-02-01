@@ -5,16 +5,39 @@ using UnityEngine;
 public class CoinSpewer : MonoBehaviour
 {
     [SerializeField] private GameObject coinPrefab;
+    [SerializeField] private int minAngle = 20;
+    [SerializeField] private int maxAngle = 70;
+    [SerializeField] private float minGravity = 2.2f;
+    [SerializeField] private float maxGravity = 5.5f;
+    [SerializeField] private int minVelocity = 30;
+    [SerializeField] private int maxVelocity = 40;
+    [SerializeField] private int minBurstCoinAmount = 5;
+    [SerializeField] private int maxBurstCoinAmount = 20;
+    [SerializeField] private int burstRateDelay = 5;
+    [SerializeField] private float xPositionAdjustmentLeft = 200;
+    [SerializeField] private float xPositionAdjustmentRight = -100;
     static int INITIAL_COINS_REMAINING = 300;
     int coinsRemaining = INITIAL_COINS_REMAINING;
     private List<GameObject> spewingCoins = new List<GameObject>();
     private Stack<GameObject> deletedCoins = new Stack<GameObject>();
-    Dictionary<GameObject, float[]> initialTrajectories = new Dictionary<GameObject, float[]>();
+    Dictionary<GameObject, float[]> coinData = new Dictionary<GameObject, float[]>();
 
     // Use this for initialization
     void Awake()
     {
-        gameObject.SetActive(false);
+        float width = GetComponent<RectTransform>().rect.width;
+        float height = GetComponent<RectTransform>().rect.height;
+        Rect rect = GetComponent<RectTransform>().rect;
+        float coinDim = height / 8;
+        GameObject coin = Instantiate(coinPrefab) as GameObject;
+        coin.GetComponent<RectTransform>().sizeDelta = new Vector2(coinDim, coinDim);
+        coin.transform.localPosition = new Vector3(rect.xMin, rect.yMin, 0);
+        coin.transform.SetParent(gameObject.transform, false);
+        GameObject coin2 = Instantiate(coinPrefab) as GameObject;
+        coin2.GetComponent<RectTransform>().sizeDelta = new Vector2(coinDim, coinDim);
+        coin2.transform.localPosition = new Vector3(rect.xMax, rect.yMax, 0);
+        coin2.transform.SetParent(gameObject.transform, false);
+        // gameObject.SetActive(false);
     }
 
     /// <summary>
@@ -23,31 +46,39 @@ public class CoinSpewer : MonoBehaviour
     /// <returns>The coins.</returns>
     IEnumerator AdvanceCoins()
     {
-        int delay = 10;
+        int delay = burstRateDelay;
+        Rect rect = GetComponent<RectTransform>().rect;
         while (spewingCoins.Count > 0)
         {
             // update coin positions
             foreach (GameObject coin in spewingCoins)
             {
                 var pos = coin.transform.localPosition;
-                pos.x += (8.0f * initialTrajectories[coin][2]);
-
-                pos.y = GetProjectileY(pos.x, initialTrajectories[coin][0], initialTrajectories[coin][1]);
-                if (coin.transform.position.y <= 0)
+                // TODO this got unreadable. need to refactor with actual field names.
+                pos.x += (coinData[coin][3] * 0.3f * coinData[coin][2]);
+                if (coinData[coin][2] > 0)
                 {
-                    deletedCoins.Push(coin);
-                    initialTrajectories.Remove(coin);
-                    Destroy(coin);
+                    pos.y = GetProjectileY(pos.x + xPositionAdjustmentLeft, coinData[coin][1], coinData[coin][3], coinData[coin][0]);
                 }
                 else
                 {
+                    pos.y = GetProjectileY(pos.x + xPositionAdjustmentRight, coinData[coin][1], coinData[coin][3], coinData[coin][0]);
+                }
+
+                // pos.y = GetProjectileY(pos.x, coinData[coin][1], coinData[coin][3]);
+
+                if (coin.transform.position.y > -800) { 
                     coin.transform.localPosition = pos;
+                } else {
+                    deletedCoins.Push(coin);
+                    coinData.Remove(coin);
+                    Destroy(coin);
                 }
             }
             if (coinsRemaining > 0 && (delay--) <= 0)
             {
-                CreateCoins();
-                delay = 10;
+                CreateCoins(minBurstCoinAmount, maxBurstCoinAmount);
+                delay = burstRateDelay;
             }
             while (deletedCoins.Count > 0)
             {
@@ -63,11 +94,10 @@ public class CoinSpewer : MonoBehaviour
     /// </summary>
     /// <param name="min">Minimum.</param>
     /// <param name="max">Max.</param>
-    public void CreateCoins(int min = 20, int max = 40)
+    public void CreateCoins(int min, int max)
     {
-        float width = GetComponent<RectTransform>().rect.width;
-        float height = GetComponent<RectTransform>().rect.height;
-        float coinDim = height / 8;
+        Rect rect = GetComponent<RectTransform>().rect;
+        float coinDim = rect.height / 8;
         int numberOfCoins = Random.Range(min, max);
         for (int i = 0; i < numberOfCoins; i++)
         {
@@ -78,23 +108,27 @@ public class CoinSpewer : MonoBehaviour
             coinsRemaining--;
             GameObject coin = Instantiate(coinPrefab) as GameObject;
             coin.GetComponent<RectTransform>().sizeDelta = new Vector2(coinDim, coinDim);
+            coinData[coin] = new float[4];
+            // coinData - 0: gravity
+            // coinData - 1: angle
+            // coinData - 2: direction modifier (+1 or -1)
+            // coinData - 3: velocity
 
-            coin.transform.localPosition = new Vector3(Random.Range(width * -0.2f, 0), Random.Range(0.1f, height * 0.8f), 0);
-            initialTrajectories[coin] = new float[3];
+            // which side of screen does the coin come from
             if (Random.Range(0, 10) < 5)
             {
-                initialTrajectories[coin][1] = Random.Range(-10, -30);
-                coin.transform.localPosition = new Vector3(Random.Range(width * -0.2f, 0), Random.Range(0.1f, height * 0.8f), 0);
-                initialTrajectories[coin][2] = 1;
+                coin.transform.localPosition = new Vector3(rect.xMin, -400, 0);
+                coinData[coin][2] = 1;
             }
             else
             {
-                initialTrajectories[coin][2] = -1;
-                initialTrajectories[coin][1] = Random.Range(40, 50);
-                coin.transform.localPosition = new Vector3(Random.Range(width * 2.2f, width * 2.4f), Random.Range(0.1f, height * 0.8f), 0);
+                coin.transform.localPosition = new Vector3(rect.xMax, -400, 0);
+                coinData[coin][2] = -1;
             }
-            initialTrajectories[coin][0] = coin.transform.localPosition.y;
-            coin.transform.SetParent(gameObject.transform);
+            coinData[coin][0] = Random.Range(minGravity, maxGravity); // gravity
+            coinData[coin][1] = Random.Range(minAngle, maxAngle);
+            coinData[coin][3] = Random.Range(minVelocity, maxVelocity); // velocity
+            coin.transform.SetParent(gameObject.transform, false);
             spewingCoins.Add(coin);
         }
     }
@@ -106,7 +140,7 @@ public class CoinSpewer : MonoBehaviour
     {
         gameObject.SetActive(true);
         coinsRemaining = INITIAL_COINS_REMAINING;
-        CreateCoins(30, 80);
+        CreateCoins(minBurstCoinAmount, maxBurstCoinAmount);
         StartCoroutine(AdvanceCoins());
     }
 
@@ -115,16 +149,11 @@ public class CoinSpewer : MonoBehaviour
     /// formula for projectile found on https://www.desmos.com/calculator/gjnco6mzjo
     /// </summary>
     /// <returns>The projectile y.</returns>
-    /// <param name="paramX">Parameter x.</param>
-    /// <param name="initialHeight">Initial height.</param>
-    /// <param name="angle">Angle.</param>
-    float GetProjectileY(float paramX, float initialHeight, float angle)
+    float GetProjectileY(float x, float angle, float velocity, float gravity)
     {
-        float x = paramX;
-        float A = angle;
-        float a = A * (Mathf.PI / 180);
-        float v = 40;
-        float h = initialHeight;
-        return (h - 4.9f * Mathf.Pow(x / (v * Mathf.Cos(a)), 2) + Mathf.Tan(a) * x);
+        float a = angle * (Mathf.PI / 180);
+        float v = velocity;
+        float h = 0; // launching from the screen corners. height is 0
+        return (h - gravity * Mathf.Pow(x / (v * Mathf.Cos(a)), 2) + Mathf.Tan(a) * x);
     }
 }
