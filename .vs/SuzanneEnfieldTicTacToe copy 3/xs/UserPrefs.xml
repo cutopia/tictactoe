@@ -1,0 +1,16 @@
+﻿<Properties StartupConfiguration="{512DD32C-50DB-7CA6-8D92-2B99293D16AB}|">
+  <MonoDevelop.Ide.ItemProperties.SuzanneEnfieldTicTacToe_220copy_2203 PreferredExecutionTarget="Unity.Editor" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/GameController.cs">
+    <Files>
+      <File FileName="Assets/Scripts/GameController.cs" Line="272" Column="90" />
+      <File FileName="Assets/Scripts/QuickPlayTool.cs" Line="23" Column="44" />
+      <File FileName="Assets/Scripts/OutcomeFinder.cs" Line="369" Column="34" />
+    </Files>
+  </MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
+  <MonoDevelop.Ide.DebuggingService.Breakpoints>
+    <BreakpointStore />
+  </MonoDevelop.Ide.DebuggingService.Breakpoints>
+  <MultiItemStartupConfigurations />
+</Properties>

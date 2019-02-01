@@ -1,0 +1,21 @@
+﻿<Properties StartupConfiguration="{4A2E3B22-FBDB-4D0A-ECAC-B0567E8E8AEA}|">
+  <MonoDevelop.Ide.ItemProperties.SuzanneEnfieldTicTacToe PreferredExecutionTarget="Unity.Editor" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/RibController.cs">
+    <Files>
+      <File FileName="Assets/Scripts/GameController.cs" Line="171" Column="39" />
+      <File FileName="Assets/Scripts/TesterToolWindow.cs" Line="63" Column="1" />
+      <File FileName="Assets/Scripts/OutcomeFinder.cs" Line="247" Column="1" />
+      <File FileName="Assets/Scripts/MenuController.cs" Line="18" Column="20" />
+      <File FileName="Assets/Scripts/PlayerSymbolSelector.cs" Line="16" Column="56" />
+      <File FileName="Assets/Scripts/BigWin.cs" Line="17" Column="42" />
+      <File FileName="Assets/Scripts/CoinSpewer.cs" Line="14" Column="15" />
+      <File FileName="Assets/Scripts/RibController.cs" Line="7" Column="5" />
+    </Files>
+  </MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
+  <MonoDevelop.Ide.DebuggingService.Breakpoints>
+    <BreakpointStore />
+  </MonoDevelop.Ide.DebuggingService.Breakpoints>
+  <MultiItemStartupConfigurations />
+</Properties>
