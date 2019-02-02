@@ -65,8 +65,6 @@ public class CoinSpewer : MonoBehaviour
                     pos.y = GetProjectileY(pos.x + xPositionAdjustmentRight, coinData[coin][1], coinData[coin][3], coinData[coin][0]);
                 }
 
-                // pos.y = GetProjectileY(pos.x, coinData[coin][1], coinData[coin][3]);
-
                 if (coin.transform.position.y > -800) { 
                     coin.transform.localPosition = pos;
                 } else {

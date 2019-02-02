@@ -679,52 +679,52 @@ Prefab:
     - target: {fileID: 224858688077273784, guid: 9f30fecf203b1448f9b8af321f5b5ba5,
         type: 2}
       propertyPath: m_AnchoredPosition.x
-      value: -300
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 224858688077273784, guid: 9f30fecf203b1448f9b8af321f5b5ba5,
         type: 2}
       propertyPath: m_AnchoredPosition.y
-      value: -300
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 224858688077273784, guid: 9f30fecf203b1448f9b8af321f5b5ba5,
         type: 2}
       propertyPath: m_SizeDelta.x
-      value: 600
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 224858688077273784, guid: 9f30fecf203b1448f9b8af321f5b5ba5,
         type: 2}
       propertyPath: m_SizeDelta.y
-      value: 600
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 224858688077273784, guid: 9f30fecf203b1448f9b8af321f5b5ba5,
         type: 2}
       propertyPath: m_AnchorMin.x
-      value: 0.5
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 224858688077273784, guid: 9f30fecf203b1448f9b8af321f5b5ba5,
         type: 2}
       propertyPath: m_AnchorMin.y
-      value: 0.5
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 224858688077273784, guid: 9f30fecf203b1448f9b8af321f5b5ba5,
         type: 2}
       propertyPath: m_AnchorMax.x
-      value: 0.5
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 224858688077273784, guid: 9f30fecf203b1448f9b8af321f5b5ba5,
         type: 2}
       propertyPath: m_AnchorMax.y
-      value: 0.5
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 224858688077273784, guid: 9f30fecf203b1448f9b8af321f5b5ba5,
         type: 2}
       propertyPath: m_Pivot.x
-      value: 0
+      value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: 224858688077273784, guid: 9f30fecf203b1448f9b8af321f5b5ba5,
         type: 2}
       propertyPath: m_Pivot.y
-      value: 0
+      value: 0.5
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 9f30fecf203b1448f9b8af321f5b5ba5, type: 2}
@@ -813,8 +813,8 @@ GameObject:
   - component: {fileID: 519175544}
   - component: {fileID: 519175547}
   - component: {fileID: 519175546}
-  - component: {fileID: 519175545}
   - component: {fileID: 519175548}
+  - component: {fileID: 519175549}
   m_Layer: 5
   m_Name: BigWinImage
   m_TagString: Untagged
@@ -830,31 +830,16 @@ RectTransform:
   m_GameObject: {fileID: 519175543}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 44.444447}
-  m_LocalScale: {x: 0.5805556, y: 0.58055556, z: 0.5805556}
+  m_LocalScale: {x: 0.8, y: 0.8, z: 1}
   m_Children: []
   m_Father: {fileID: 172377108}
   m_RootOrder: 9
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: -2.3976297}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 1021, y: 799}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!111 &519175545
-Animation:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 519175543}
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Animation: {fileID: 7400000, guid: 4fd13a63838924f108b6031cc0f050c6, type: 2}
-  m_Animations:
-  - {fileID: 7400000, guid: 4fd13a63838924f108b6031cc0f050c6, type: 2}
-  m_WrapMode: 0
-  m_PlayAutomatically: 0
-  m_AnimatePhysics: 0
-  m_CullingType: 0
 --- !u!114 &519175546
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -900,6 +885,23 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   coinSpewer: {fileID: 2053344511}
+--- !u!95 &519175549
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 519175543}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 3054e3b5ab9d34e5f985a5312252260f, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
 --- !u!1 &534238232
 GameObject:
   m_ObjectHideFlags: 0

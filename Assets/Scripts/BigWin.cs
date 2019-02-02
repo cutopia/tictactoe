@@ -7,25 +7,23 @@ public class BigWin : MonoBehaviour {
     void Start () {
         gameObject.SetActive(false);
 	}
+    SimpleDel _registeredCallback;
+
 
     public void PlayBigWinAnimation(SimpleDel callback)
     {
+        _registeredCallback = callback;
         coinSpewer.StartCoins();
         gameObject.SetActive(true);
-        GetComponent<Animation>().Play();
-        if (callback != null)
-        {
-            StartCoroutine(onComplete(GetComponent<Animation>(), callback));
-        }
+        GetComponent<Animator>().SetTrigger("ActivateBigWinTrigger");
     }
 
-    IEnumerator onComplete(Animation anim, SimpleDel callback)
+    public void OnPlayBigWinComplete()
     {
-        while (anim.isPlaying)
-        {
-            yield return null;
-        }
         gameObject.SetActive(false);
-        callback();
+        if (_registeredCallback != null)
+        {
+            _registeredCallback();
+        }
     }
 }
