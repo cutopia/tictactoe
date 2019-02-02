@@ -46,7 +46,7 @@ public class GameController : MonoBehaviour {
     private List<Move> _playbackMoves;
     private float _timeSinceLastCheatMove = 0;
     private SimpleDel _onUpdate;
-
+    
     private Stack<Move> _gameMoves = new Stack<Move>();
 
     /**
@@ -100,6 +100,11 @@ public class GameController : MonoBehaviour {
      */
     public void OnExitGameClicked()
     {
+        // stop the exit button from doing stuff if the win fanfare is going.
+        if (bigWin.gameObject.activeSelf)
+        {
+            return;
+        }
         gameBoard3x3.SetActive(false);
         gameBoard4x4.SetActive(false);
         GetComponent<MenuController>().MenuGrandEntrance();

@@ -726,6 +726,16 @@ Prefab:
       propertyPath: m_Pivot.y
       value: 0.5
       objectReference: {fileID: 0}
+    - target: {fileID: 114002729083361440, guid: 9f30fecf203b1448f9b8af321f5b5ba5,
+        type: 2}
+      propertyPath: minBurstCoinAmount
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 114002729083361440, guid: 9f30fecf203b1448f9b8af321f5b5ba5,
+        type: 2}
+      propertyPath: maxBurstCoinAmount
+      value: 20
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 9f30fecf203b1448f9b8af321f5b5ba5, type: 2}
   m_IsPrefabParent: 0
@@ -815,6 +825,7 @@ GameObject:
   - component: {fileID: 519175546}
   - component: {fileID: 519175548}
   - component: {fileID: 519175549}
+  - component: {fileID: 519175545}
   m_Layer: 5
   m_Name: BigWinImage
   m_TagString: Untagged
@@ -840,6 +851,17 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 1021, y: 799}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!225 &519175545
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 519175543}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 0
+  m_BlocksRaycasts: 0
+  m_IgnoreParentGroups: 0
 --- !u!114 &519175546
 MonoBehaviour:
   m_ObjectHideFlags: 0
