@@ -16,28 +16,24 @@ public class CoinSpewer : MonoBehaviour
     [SerializeField] private int burstRateDelay = 5;
     [SerializeField] private float xPositionAdjustmentLeft = 200;
     [SerializeField] private float xPositionAdjustmentRight = -100;
-    static int INITIAL_COINS_REMAINING = 300;
-    int coinsRemaining = INITIAL_COINS_REMAINING;
+    [SerializeField] private int totalCoinsToSpew = 200;
+    int coinsRemaining;
     private List<GameObject> spewingCoins = new List<GameObject>();
     private Stack<GameObject> deletedCoins = new Stack<GameObject>();
-    Dictionary<GameObject, float[]> coinData = new Dictionary<GameObject, float[]>();
+    Dictionary<GameObject, CoinStruct> coinData = new Dictionary<GameObject, CoinStruct>();
+
+    private struct CoinStruct
+    {
+        public float gravity;
+        public float angle;
+        public int directionalModifier;
+        public float velocity;
+    }
 
     // Use this for initialization
     void Awake()
     {
-        float width = GetComponent<RectTransform>().rect.width;
-        float height = GetComponent<RectTransform>().rect.height;
-        Rect rect = GetComponent<RectTransform>().rect;
-        float coinDim = height / 8;
-        GameObject coin = Instantiate(coinPrefab) as GameObject;
-        coin.GetComponent<RectTransform>().sizeDelta = new Vector2(coinDim, coinDim);
-        coin.transform.localPosition = new Vector3(rect.xMin, rect.yMin, 0);
-        coin.transform.SetParent(gameObject.transform, false);
-        GameObject coin2 = Instantiate(coinPrefab) as GameObject;
-        coin2.GetComponent<RectTransform>().sizeDelta = new Vector2(coinDim, coinDim);
-        coin2.transform.localPosition = new Vector3(rect.xMax, rect.yMax, 0);
-        coin2.transform.SetParent(gameObject.transform, false);
-        // gameObject.SetActive(false);
+         gameObject.SetActive(false);
     }
 
     /// <summary>
@@ -54,15 +50,14 @@ public class CoinSpewer : MonoBehaviour
             foreach (GameObject coin in spewingCoins)
             {
                 var pos = coin.transform.localPosition;
-                // TODO this got unreadable. need to refactor with actual field names.
-                pos.x += (coinData[coin][3] * 0.3f * coinData[coin][2]);
-                if (coinData[coin][2] > 0)
+                pos.x += (coinData[coin].velocity * 0.3f * coinData[coin].directionalModifier);
+                if (coinData[coin].directionalModifier > 0)
                 {
-                    pos.y = GetProjectileY(pos.x + xPositionAdjustmentLeft, coinData[coin][1], coinData[coin][3], coinData[coin][0]);
+                    pos.y = GetProjectileY(pos.x + xPositionAdjustmentLeft, coinData[coin].angle, coinData[coin].velocity, coinData[coin].gravity);
                 }
                 else
                 {
-                    pos.y = GetProjectileY(pos.x + xPositionAdjustmentRight, coinData[coin][1], coinData[coin][3], coinData[coin][0]);
+                    pos.y = GetProjectileY(pos.x + xPositionAdjustmentRight, coinData[coin].angle, coinData[coin].velocity, coinData[coin].gravity);
                 }
 
                 if (coin.transform.position.y > -800) { 
@@ -106,27 +101,24 @@ public class CoinSpewer : MonoBehaviour
             coinsRemaining--;
             GameObject coin = Instantiate(coinPrefab) as GameObject;
             coin.GetComponent<RectTransform>().sizeDelta = new Vector2(coinDim, coinDim);
-            coinData[coin] = new float[4];
-            // coinData - 0: gravity
-            // coinData - 1: angle
-            // coinData - 2: direction modifier (+1 or -1)
-            // coinData - 3: velocity
+            CoinStruct coinDataItem = new CoinStruct();
 
             // which side of screen does the coin come from
             if (Random.Range(0, 10) < 5)
             {
                 coin.transform.localPosition = new Vector3(rect.xMin, -400, 0);
-                coinData[coin][2] = 1;
+                coinDataItem.directionalModifier = 1;
             }
             else
             {
                 coin.transform.localPosition = new Vector3(rect.xMax, -400, 0);
-                coinData[coin][2] = -1;
+                coinDataItem.directionalModifier = -1;
             }
-            coinData[coin][0] = Random.Range(minGravity, maxGravity); // gravity
-            coinData[coin][1] = Random.Range(minAngle, maxAngle);
-            coinData[coin][3] = Random.Range(minVelocity, maxVelocity); // velocity
+            coinDataItem.gravity = Random.Range(minGravity, maxGravity);
+            coinDataItem.angle = Random.Range(minAngle, maxAngle);
+            coinDataItem.velocity = Random.Range(minVelocity, maxVelocity);
             coin.transform.SetParent(gameObject.transform, false);
+            coinData[coin] = coinDataItem;
             spewingCoins.Add(coin);
         }
     }
@@ -137,7 +129,7 @@ public class CoinSpewer : MonoBehaviour
     public void StartCoins()
     {
         gameObject.SetActive(true);
-        coinsRemaining = INITIAL_COINS_REMAINING;
+        coinsRemaining = totalCoinsToSpew;
         CreateCoins(minBurstCoinAmount, maxBurstCoinAmount);
         StartCoroutine(AdvanceCoins());
     }
